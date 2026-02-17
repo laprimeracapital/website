@@ -58,7 +58,7 @@ export default function NewsPage () {
                 <h1 className="w-full m-auto mb-md lg:w lg:text-h1" style={{"--w-lg": "60%"}} aria-label={news?.title}>{news?.title}</h1>
                 <p className="w-full m-auto mb-md text-dark line-relaxed text-lg lg:w" style={{"--w-lg": "60%"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur arcu tellus, iaculis vitae magna non, dignissim elementum justo. Vestibulum interdum eget neque vitae convallis. Cras egestas viverra euismod. Suspendisse varius a dui ac sagittis. Phasellus mollis tellus urna, vel sodales neque aliquet sit amet. Pellentesque ultricies turpis luctus porttitor eleifend. Nullam nec neque tellus.</p>
                 <div className="w m-auto mb-md h bg-surface lg:w lg:h" style={{"--w": "100%", "--w-lg": "60%", "--h": "250px", "--h-lg": "450px"}}>
-                    <img src="https://lacamara.pe/wp-content/uploads/2026/02/ENTREVISTA-1216-SIRI-LANKA.jpg" className="w-full h-full" style={{"objectFit": "cover"}} draggable={false} />
+                    <img src="https://lacamara.pe/wp-content/uploads/2026/02/ENTREVISTA-1216-SIRI-LANKA.jpg" className="w-full h-full" style={{"objectFit": "cover"}} draggable={false} alt={`${news?.title} - ${news?.summary} - La Primera Capital`} />
                 </div>
                 <ul className="w-full flex gap-sm align-center justify-end pb-md m-auto lg:w" style={{"--w-lg": "60%"}}>
                     <p>Compartir en</p>
