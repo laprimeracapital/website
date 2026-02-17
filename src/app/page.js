@@ -1,8 +1,25 @@
-import SummaryTop from "../components/grid/SummaryTop";
+import { useEffect, useState } from "react";
+import CardNews from "../components/card/news";
 import HelmetComponent from "../helpers/helmet";
-import { links } from "../helpers/links";
+import { getNewsAll } from "../services/news.service";
 
 export default function HomePage () {
+
+    const [ top, setTop ] = useState(null);
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const data = await getNewsAll();
+                setTop(data[0])
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        load();
+    }, [])
+
+    console.log(top);
 
     return (
 
@@ -11,14 +28,8 @@ export default function HomePage () {
             <HelmetComponent/>
         
             <section className="w m-auto ph-lg border-bottom xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>
-                <SummaryTop/>
+                <CardNews sum={top} />
             </section>
-
-            {links.map((link) => (
-                <section key={link.slug} id={link.slug} className="w m-auto ph-lg border-bottom xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>
-                    <h2 aria-label={link.text}>{link.text}</h2>
-                </section>
-            ))}
         
         </>
 

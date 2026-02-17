@@ -10,6 +10,8 @@ moment.locale('es');
 export default function Header () {
 
     const location = useLocation();
+    console.log(location);
+    
     const [ menu, setMenu ] = useState(false);
     const [ searchActive, setSearchActive ] = useState(false)
 
@@ -36,7 +38,7 @@ export default function Header () {
                     <p className="lg:none pv-lg">{moment().format('LL')}</p>
                     <ul className="none m-auto lg:flex lg:justify-center w-full h-full align-center gap-sm scroll scroll-hidden lg:pv-lg">
                         {links.map((link) => (
-                            <Link key={link.slug} to={`/section/${link.slug}`} className={`text-nowrap text-sm pv-sm ph-md lg:text-md ${location.pathname === `/section/${link.slug}` ? 'text-medium text-black' : 'text-muted'}`}>{link.text}</Link>
+                            <Link key={link.slug} to={`/#${link.slug}`} className={`text-nowrap text-sm pv-sm ph-md lg:text-md ${location.hash === `#${link.slug}` ? 'text-semibold text-black' : 'text-muted'}`}>{link.text}</Link>
                         ))}
                     </ul>
                 </div>
@@ -52,7 +54,7 @@ export default function Header () {
                 </div>
                 <ul className="w-full flex flex-col">
                     {links.map((link) => (
-                        <Link key={link.slug} to={`/section/${link.slug}`} onClick={() => setMenu(false)} className="block w-full text-bold text-lg border-bottom ph-lg">{link.text}</Link>
+                        <Link key={link.slug} to={`/#${link.slug}`} onClick={() => setMenu(false)} className="block w-full text-bold text-lg border-bottom ph-lg">{link.text}</Link>
                     ))}
                 </ul>
             </nav>
