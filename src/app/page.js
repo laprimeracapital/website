@@ -5,13 +5,13 @@ import { getNewsAll } from "../services/news.service";
 
 export default function HomePage () {
 
-    const [ top, setTop ] = useState(null);
+    const [ news, setNews ] = useState([]);
 
     useEffect(() => {
         const load = async () => {
             try {
                 const data = await getNewsAll();
-                setTop(data[0])
+                setNews(data)
             } catch (error) {
                 console.error(error);
             }
@@ -19,16 +19,17 @@ export default function HomePage () {
         load();
     }, [])
 
-    console.log(top);
-
     return (
 
         <>
 
             <HelmetComponent/>
         
-            <section className="w m-auto ph-lg border-bottom xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>
-                <CardNews sum={top} />
+            
+            <section className="w flex flex-col gap-xl m-auto ph-lg xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>
+                {news.map((nw) => (
+                    <CardNews key={nw} sum={nw} />
+                ))}
             </section>
         
         </>

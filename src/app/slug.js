@@ -52,6 +52,7 @@ export default function NewsPage () {
                 description={news?.summary}
                 keywords={news?.keywords}
                 canonical={`https://laprimeracapital.pe/${slug}`}
+                image={news?.image}
             />
 
             <section className="w m-auto ph-lg border-bottom xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>
