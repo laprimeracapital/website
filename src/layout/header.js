@@ -10,7 +10,6 @@ moment.locale('es');
 export default function Header () {
 
     const location = useLocation();
-    console.log(location);
     
     const [ menu, setMenu ] = useState(false);
     const [ searchActive, setSearchActive ] = useState(false)

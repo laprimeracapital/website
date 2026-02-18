@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { shareFacebook, shareLinkedIn, shareWhatsApp, shareX } from "../helpers/shared";
 import { getNewBySlug } from "../services/news.service";
 import NewSkeleton from "../components/skeleton/new.skeleton";
+import { texts } from "../helpers/texts";
 
 export default function NewsPage () {
     
@@ -43,17 +44,24 @@ export default function NewsPage () {
     if (loading) return <NewSkeleton/>;
 
     if (error) return <p>{error}</p>
-
+    
     return (
 
         <>
-        
+                    
             <HelmetComponent
                 title={`${news?.title} | La Primera Capital | Diario Económico y Empresarial de Jauja`}
                 description={news?.summary}
                 keywords={news?.keywords}
-                canonical={`https://laprimeracapital.pe/${slug}`}
+                article={true}
+                articleTime={news?.timestamp}
+                url={`https://laprimeracapital.netlify.app/${slug}`}
                 image={news?.image}
+                breadcrumbs={[
+                    { name: "Inicio", url: "https://laprimeracapital.netlify.app/" },
+                    { name: texts[news?.category], url: `https://laprimeracapital.netlify.app/section/${news?.category}` },
+                    { name: news?.title, url: `https://laprimeracapital.netlify.app/${news?.slug}` }
+                ]}
             />
 
             <section className="w m-auto ph-lg border-bottom xl:w" style={{"--w": "95%", "--w-xl": "80%"}}>

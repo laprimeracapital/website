@@ -1,45 +1,116 @@
 import { Helmet } from "react-helmet";
 
-export default function HelmetComponent ({ title, description, keywords, canonical, image }) {
+const safeString = (value, fallback = "") =>
+    typeof value === "string" && value.trim() !== "" ? value : fallback;
+
+export default function HelmetComponent({ title, description, keywords, url, image, article = false, articleTime, author = "La Primera Capital", breadcrumbs = [] }) {
+    
+    const safeTitle = safeString(title, "La Primera Capital | Diario Económico y Empresarial de Jauja");
+    const safeDescription = safeString(description, "La Primera Capital es el diario económico y empresarial de Jauja. Negocios, inversión e innovación con enfoque regional.");
+    const safeKeywords = safeString(keywords, "Jauja, economía, negocios, inversión, empresa, Perú");
+    const safeUrl = safeString(url, "https://laprimeracapital.netlify.app/");
+    const safeImage = safeString(image, "https://laprimeracapital.netlify.app/og-image.jpg");
+
+    const organizationSchema = {
+        "@context": "https://schema.org",
+        "@type": "NewsMediaOrganization",
+        name: "La Primera Capital",
+        url: "https://laprimeracapital.netlify.app/",
+        logo: {
+            "@type": "ImageObject",
+            url: "https://laprimeracapital.netlify.app/logo.png"
+        },
+        sameAs: [
+            "https://www.facebook.com/laprimeracapital",
+            "https://www.twitter.com/laprimeracap",
+            "https://www.linkedin.com/company/laprimeracapital",
+            "https://www.instagram.com/laprimeracapital"
+        ]
+    };
+
+    const articleSchema =
+        article && articleTime ? {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: safeTitle,
+            description: safeDescription,
+            image: [safeImage],
+            datePublished: articleTime,
+            dateModified: articleTime,
+            author: {
+                "@type": "Organization",
+                name: author
+            },
+            publisher: {
+                "@type": "Organization",
+                name: "La Primera Capital",
+                logo: {
+                    "@type": "ImageObject",
+                    url: "https://laprimeracapital.netlify.app/logo.png"
+                }
+            },
+            mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": safeUrl
+            }
+        } : null;
+
+    const breadcrumbSchema = breadcrumbs.length > 0 ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((item, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.name,
+            item: item.url
+        }))
+    } : null;
+
     return (
         <Helmet>
-            <title>{title || 'La Primera Capital | Diario Económico y Empresarial de Jauja'}</title>
-            <meta name="description" content={description || "La Primera Capital es el diario económico y empresarial de Jauja. Análisis, negocios, política con enfoque empresarial, inversión e innovación para impulsar el desarrollo regional."} />
-            <meta name="keywords" content={keywords || "Jauja, economía, negocios, inversión, política empresarial, innovación, turismo, desarrollo regional, Perú"} />
-            <meta name="author" content="La Primera Capital" />
+            {/* Básico */}
+            <title>{safeTitle}</title>
+            <meta name="description" content={safeDescription} />
+            <meta name="keywords" content={safeKeywords} />
             <meta name="robots" content="index, follow" />
 
-            <link rel="canonical" href={canonical || "https://laprimeracapital.pe/"} />
-
-            <meta property="og:type" content="website" />
-            <meta property="og:title" content={title || "La Primera Capital | Diario Económico de Jauja"} />
-            <meta property="og:description" content={description || "Donde empezó el Perú. Donde empieza el futuro. Noticias económicas, empresariales y de inversión desde Jauja para el mundo."} />
-            <meta property="og:url" content={canonical || "https://laprimeracapital.pe/"} />
+            {/* Open Graph */}
+            <meta property="og:type" content={article ? "article" : "website"} />
+            <meta property="og:title" content={safeTitle} />
+            <meta property="og:description" content={safeDescription} />
+            <meta property="og:url" content={safeUrl} />
             <meta property="og:site_name" content="La Primera Capital" />
-            <meta property="og:image" content={image || "https://laprimeracapital.pe/og-image.jpg"} />
+            <meta property="og:image" content={safeImage} />
 
+            {/* Twitter */}
             <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={title || "La Primera Capital | Diario Económico de Jauja"} />
-            <meta name="twitter:description" content={description || "Noticias económicas, negocios, inversión e innovación desde Jauja."} />
-            <meta name="twitter:image" content={image || "https://laprimeracapital.pe/og-image.jpg"} />
+            <meta name="twitter:title" content={safeTitle} />
+            <meta name="twitter:description" content={safeDescription} />
+            <meta name="twitter:image" content={safeImage} />
 
-            <meta name="geo.region" content="PE-JUN" />
-            <meta name="geo.placename" content="Jauja" />
-            <meta name="geo.position" content="-11.7756;-75.4966" />
-            <meta name="ICBM" content="-11.7756, -75.4966" />
+            {/* Article meta */}
+            {article && articleTime && (
+                <meta property="article:published_time" content={articleTime} />
+            )}
 
+            {/* Schema: Organization */}
             <script type="application/ld+json">
-                {`
-                    {
-                        "@context": "https://schema.org",
-                        "@type": "NewsMediaOrganization",
-                        "name": "La Primera Capital",
-                        "url": ${canonical || "https://laprimeracapital.pe/"},
-                        "logo": "https://laprimeracapital.pe/logo.png",
-                        "sameAs": []
-                    }
-                `}
+                {JSON.stringify(organizationSchema)}
             </script>
+
+            {/* Schema: NewsArticle */}
+            {articleSchema && (
+                <script type="application/ld+json">
+                    {JSON.stringify(articleSchema)}
+                </script>
+            )}
+
+            {/* Schema: BreadcrumbList */}
+            {breadcrumbSchema && (
+                <script type="application/ld+json">
+                    {JSON.stringify(breadcrumbSchema)}
+                </script>
+            )}
         </Helmet>
-    )
+    );
 }
