@@ -70,10 +70,10 @@ export default function NewsPage () {
                     <button className="w h center bg-surface text-dark" title="Copiar vinculo" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={handleCopyLink}><IconLink strokeWidth={1.5} size={18} /></button>
                 </ul>
                 <div className="text-dark line-relaxed text-lg m-auto lg:w" style={{"--w-lg": "60%"}} dangerouslySetInnerHTML={{__html: news?.content}}></div>
-                <ul className="w-full m-auto flex gap-sm ph-lg lg:w" style={{"--w-lg": "60%"}}>
+                <ul className="w-full m-auto flex gap-sm flex-wrap ph-lg lg:w" style={{"--w-lg": "60%"}}>
                     <li className="bg-dark text-white ph-xs pv-md">Tags</li>
                     {news?.keywords.map((k) => (
-                        <Link to={`/tag/${k}`} key={k} className="ph-xs pv-md">{k}</Link>
+                        <Link key={k} className="ph-xs pv-md">{k}</Link>
                     ))}
                 </ul>
             </section>

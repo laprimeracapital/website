@@ -21,6 +21,9 @@
 .flex-col-reverse { flex-direction: column-reverse; }
 .flex-row-reverse { flex-direction: row-reverse; }
 
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
 .align-center { align-items: center; }
 .align-end { align-items: flex-end; }
 .align-start { align-items: flex-start; }
