@@ -14,10 +14,11 @@ export default function NewsPage () {
     const [ error, setError ] = useState('');
     const [ loading, setLoading ] = useState(true);
 
-    const handleCopyLink = async () => {
+    const handleCopyLink = async (title) => {
         try {
             const url = window.location.href;
-            await navigator.clipboard.writeText(url);
+            const msg = `${title}\n${url}`
+            await navigator.clipboard.writeText(msg);
             toast('Link copiado al portapapeles')
         } catch (error) {
             toast.error(`Error al copiar: ${error}`)
@@ -63,11 +64,11 @@ export default function NewsPage () {
                 </div>
                 <ul className="w-full flex gap-sm align-center justify-end pb-md m-auto lg:w" style={{"--w-lg": "60%"}}>
                     <p>Compartir en</p>
-                    <button className="w h center bg-surface text-dark" title="Compartir en Facebook" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={shareFacebook}><IconBrandFacebook strokeWidth={1.5} size={18} /></button>
-                    <button className="w h center bg-surface text-dark" title="Compartir en WhatsApp" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={shareWhatsApp}><IconBrandWhatsapp strokeWidth={1.5} size={18} /></button>
-                    <button className="w h center bg-surface text-dark" title="Compartir en X/Twitter" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={shareX}><IconBrandX strokeWidth={1.5} size={18} /></button>
-                    <button className="w h center bg-surface text-dark" title="Compartir en LinkedIn" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={shareLinkedIn}><IconBrandLinkedin strokeWidth={1.5} size={18} /></button>
-                    <button className="w h center bg-surface text-dark" title="Copiar vinculo" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={handleCopyLink}><IconLink strokeWidth={1.5} size={18} /></button>
+                    <button className="w h center bg-surface text-dark" title="Compartir en Facebook" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={() => shareFacebook(`https://laprimeracapital.netlify.app/${news?.slug}`)}><IconBrandFacebook strokeWidth={1.5} size={18} /></button>
+                    <button className="w h center bg-surface text-dark" title="Compartir en WhatsApp" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={() => shareWhatsApp(news?.title, `https://laprimeracapital.netlify.app/${news?.slug}`)}><IconBrandWhatsapp strokeWidth={1.5} size={18} /></button>
+                    <button className="w h center bg-surface text-dark" title="Compartir en X/Twitter" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={() => shareX(news?.title, `https://laprimeracapital.netlify.app/${news?.slug}`)}><IconBrandX strokeWidth={1.5} size={18} /></button>
+                    <button className="w h center bg-surface text-dark" title="Compartir en LinkedIn" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={() => shareLinkedIn(`https://laprimeracapital.netlify.app/${news?.slug}`)}><IconBrandLinkedin strokeWidth={1.5} size={18} /></button>
+                    <button className="w h center bg-surface text-dark" title="Copiar vinculo" style={{"--w": "40px", "--h": "40px", "--mnw": "40px"}} onClick={() => handleCopyLink(news?.title, `https://laprimeracapital.netlify.app/${news?.slug}`)}><IconLink strokeWidth={1.5} size={18} /></button>
                 </ul>
                 <div className="text-dark line-relaxed text-lg m-auto lg:w" style={{"--w-lg": "60%"}} dangerouslySetInnerHTML={{__html: news?.content}}></div>
                 <ul className="w-full m-auto flex gap-sm flex-wrap ph-lg lg:w" style={{"--w-lg": "60%"}}>

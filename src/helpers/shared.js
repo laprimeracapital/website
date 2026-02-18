@@ -1,33 +1,40 @@
-const getCurrentUrl = () => encodeURIComponent(window.location.href);
-const getText = () => encodeURIComponent(document.title || "Mira esta noticia");
-
-export const shareFacebook = () => {
+export const shareFacebook = (link) => {
     window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${getCurrentUrl()}`,
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,
         "_blank",
         "noopener,noreferrer"
     );
 };
 
-export const shareWhatsApp = () => {
+export const shareWhatsApp = (title, link) => {
+    const message = encodeURIComponent(
+        `📰 *${title}*\n\n` +
+        `👉 Léelo aquí:\n${link}`
+    );
+
     window.open(
-        `https://wa.me/?text=${getText()}%20${getCurrentUrl()}`,
+        `https://wa.me/?text=${message}`,
         "_blank",
         "noopener,noreferrer"
     );
 };
 
-export const shareX = () => {
+export const shareX = (title, link) => {
+    const message = encodeURIComponent(
+        `${title}\n\n🔗 ${link}`
+    );
+
     window.open(
-        `https://twitter.com/intent/tweet?text=${getText()}&url=${getCurrentUrl()}`,
+        `https://twitter.com/intent/tweet?text=${message}`,
         "_blank",
         "noopener,noreferrer"
     );
 };
 
-export const shareLinkedIn = () => {
+export const shareLinkedIn = (link) => {
+    // LinkedIn también depende 100% del preview del enlace
     window.open(
-        `https://www.linkedin.com/sharing/share-offsite/?url=${getCurrentUrl()}`,
+        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(link)}`,
         "_blank",
         "noopener,noreferrer"
     );
